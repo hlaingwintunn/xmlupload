@@ -13,6 +13,17 @@
 </head>
 
 <body>
+
+
+	<form method="POST" action="/" enctype="multipart/form-data">
+	    <input type="file" name="file" /><br/><br/>
+	    <input type="submit" value="Submit" />
+	</form>
+
+	<div th:if="${message}">
+		<h2 th:text="${message}" />
+	</div>
+
 	<h1>Employees Table</h1>
 	<table id="employeesTable" class="display">
       
