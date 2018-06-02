@@ -1,4 +1,7 @@
 $(document).ready( function () {
+	var delId = 0;
+	var row;
+	
 	 var table = $('#studentsTable').DataTable({
 			"sAjaxSource": "/students",
 			"sAjaxDataProp": "",
@@ -12,24 +15,22 @@ $(document).ready( function () {
 	                     data: null,
 	                     orderable: false,
 	                     className: "dt-center",
-	                     defaultContent: ' <a href="#" style="color: red; cursor: pointer" data-toggle="modal" data-target="#myModal">Delete</a>'
+	                     defaultContent: ' <a href="#" id="del" style="color: red; cursor: pointer" data-toggle="modal" data-target="#myModal">Delete</a>'
 
 	           },
 				  
 			]
 	 })
 	 
-	 $('#studentsTable tbody').on('click', 'tr td #del', function () {
-		    var row = $(this).parents('tr')[0];
-		    var mydata = (table.row(row).data());
-		    var con=confirm("Are you sure you want to delet this "+ mydata["studentName"])
-		  if(con){
-		       // Do Something
-		  }
-		  else
-		   {
-		      // Nothing to do here
-		   }
-		});
+	 $('#studentsTable').on( 'click', 'tr td #del', function () {
+		 row = $(this).parents('tr')[0];
+	     var data = (table.row(row).data());
+  
+	     delId =  data["id"];
+	 } );
+	 
+	 $('#confirmdelete').click(function() {
+		 row.remove();
+	 })
 	
 });
