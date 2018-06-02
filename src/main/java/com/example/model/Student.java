@@ -5,6 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * 
+ * @author Hlaing Win Tun
+ *
+ */
+
 @Entity
 public class Student {
 
@@ -20,12 +26,12 @@ public class Student {
 	private String dob;
 
 	@Column(name = "totalMarks")
-	private float totalMarks;
+	private int totalMarks;
 
 	public Student() {
 	}
 
-	public Student(long id, String studentName, String dob, float totalMarks) {
+	public Student(long id, String studentName, String dob, int totalMarks) {
 		this.id = id;
 		this.studentName = studentName;
 		this.dob = dob;
@@ -59,11 +65,11 @@ public class Student {
 		return this;
 	}
 
-	public float getTotalMarks() {
+	public int getTotalMarks() {
 		return totalMarks;
 	}
 
-	public Student setTotalMarks(float totalMarks) {
+	public Student setTotalMarks(int totalMarks) {
 		this.totalMarks = totalMarks;
 		return this;
 	}

@@ -2,7 +2,11 @@ package com.example.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +28,16 @@ import org.xml.sax.SAXException;
 import com.example.model.Student;
 import com.example.repository.StudentRepository;
 
+/**
+ * 
+ * @author Hlaing Win Tun
+ *
+ */
+
 @Service("studentService")
 public class StudentServiceImpl implements StudentService {
 	private static final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
+	List<Student> results = new ArrayList<>();
 	
 	@Autowired
 	private StudentRepository studentRepository;
@@ -42,8 +53,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<Student> readFile(Optional<MultipartFile> multipartFileOpt) {
-		List<Student> results = new ArrayList<>();
+	public List<Student> readandSaveStudentInfo(Optional<MultipartFile> multipartFileOpt) throws StudentException {
 		
 		if(multipartFileOpt.isPresent()) {
 			
@@ -68,28 +78,69 @@ public class StudentServiceImpl implements StudentService {
 					
 					logger.info("\nCurrent Element:"+ nNode.getNodeName());
 					
+					Student student = new Student();
+					
 					if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element elem = (Element) nNode;
 						
-						Student student = new Student()
-								.setStudentName(elem.getElementsByTagName("studentName").item(0).getTextContent())
-								.setDob(elem.getElementsByTagName("dob").item(0).getTextContent())
-								.setTotalMarks(Float.parseFloat(elem.getElementsByTagName("totalMarks").item(0).getTextContent()));
+						// Name Validation
+						String studentName = elem.getElementsByTagName("studentName").item(0).getTextContent();
+						if(studentName.isEmpty()) {
+							throw new StudentException("name.null");
+						} else if (studentName.length() > 40) {
+							throw new StudentException("name.length");
+						} else {
+							student.setStudentName(studentName);
+						}
 						
-						logger.debug("Parse sutdent data:", student);
+						
+						// Date of Birth Validation
+						String dob = elem.getElementsByTagName("dob").item(0).getTextContent();
+						if(dob.isEmpty()) {
+							throw new StudentException("dob.null");
+						} else {
+							DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
+							Date date = df3.parse(dob);
+							student.setDob(df3.format(date));
+						}
+						
+						
+						//Totalmarks Validation
+						int totalmarks = Integer.parseInt(elem.getElementsByTagName("totalMarks").item(0).getTextContent());
+						if(totalmarks < 0) {
+							throw new StudentException("totalmarks.nagetive");
+						} else {
+							student.setTotalMarks(totalmarks);
+						}
+						
+						
+						logger.info("Parse sutdent data: {}", student);
 						
 						results.add(student);
 					}
 					
 				}
 				
-			} catch (SAXException | IOException | ParserConfigurationException ex) {
+			} catch (SAXException | IOException | ParserConfigurationException | ParseException ex) {
 				logger.error("Input multipart file error {}", ex);
 			}
 
 		}
 		
+		saveAllStudent(results);
+		
 		return results;
+	}
+
+	@Override
+	public Boolean deleteStudentById(Long id) {
+		if(studentRepository.exists(id)) {
+			studentRepository.delete(id);
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 }

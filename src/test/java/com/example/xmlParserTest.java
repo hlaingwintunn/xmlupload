@@ -1,5 +1,9 @@
 package com.example;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,10 +20,21 @@ public class xmlParserTest extends AbstractTestNGSpringContextTests {
 	
 	ReadXMLFile reader = new ReadXMLFile();
 	
-	@Test( enabled = true)
+	@Test( enabled = false)
 	public void parserTest() throws ParserConfigurationException {
 		List<Student> result = ReadXMLFile.ParseXmlToStudent("/home/n10/git/xmlupload/src/main/resources/static/data/student.xml");
 		System.err.println(result);
+	}
+	
+	@Test( enabled = true)
+	public void parseDate() throws ParseException {
+		String datestring = "12-Dec-1998";
+		
+		 DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
+		
+		 Date date = df3.parse(datestring);
+		System.err.println(df3.format(date));
+		
 	}
 	
 

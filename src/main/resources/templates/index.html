@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8" />
-	<title>Spring Boot + JPA + Datatables</title>
+	<title>Xml File Upload</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -14,42 +14,109 @@
 
 <body>
 
+	<div class="container-fluid">
+		<div class="jumbotron">
+			<h1>Xml File Upload Example</h1>
+			<p>Application to process XML File and upload the data into database table and display in the application.
+			XML file should contain multiple entries of student information with attributes - StudentName, DOB, TotalMarks. 
+			Display the appropriate validation errors</p>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="panel-group">
+			<div class="panel panel-primary">
+				<div class="panel-heading">Upload Xml File</div>
+				<div class="panel-body">
+					<form method="POST" action="/" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-lg-2">Select a file to Upload :</div>
+							<div class="col-lg-8">
+								<input type="file" name="file">
+							</div>
+						</div>
+						<p></p>
+						<br>
+						<div class="row">
+							<div class="col-lg-2"></div>
+							<div class="col-lg-8">
+								<input type="submit" value="Upload" class="btn btn-info"
+									style="width: 100px" />
+							</div>
+						</div>
+						<p></p>
+						<div class="row">
+							<div class="col-lg-2"></div>
+							
+							<div th:if="${message}" class="col-lg-10">
+								<h2><span th:text="${message}" style="font-style: italic"></span></h2>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>	
 
-	<form method="POST" action="/" enctype="multipart/form-data">
-	    <input type="file" name="file" /><br/><br/>
-	    <input type="submit" value="Submit" />
-	</form>
+	<div class="container-fluid">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Student Information</div>
+			<div class="panel-body">
+				<table id="studentsTable" class="display">
 
-	<div th:if="${message}">
-		<h2 th:text="${message}" />
+					<!-- Header Table -->
+					<thead>
+						<tr>
+							<th>Student Name</th>
+							<th>Date of Birth</th>
+							<th>Total Marks</th>
+							<th></th>
+						</tr>
+					</thead>
+					<!-- Footer Table -->
+					<tfoot>
+						<tr>
+							<th>Student Name</th>
+							<th>Date of Birth</th>
+							<th>Total Marks</th>
+							<th></th>
+						</tr>
+					</tfoot>
+				</table>
+
+<!-- 					<div style="text-align: center">
+						<button type="button" class="btn btn-info" style="width: 100px">Save</button>
+					</div> -->
+			</div>
+		</div>
 	</div>
 
-	<h1>Employees Table</h1>
-	<table id="employeesTable" class="display">
-      
-       <!-- Header Table -->
-       <thead>
-            <tr>
-                <th>Id</th>
-				<th>Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Active</th>
-            </tr>
-        </thead>
-        <!-- Footer Table -->
-        <tfoot>
-            <tr>
-                <th>Id</th>
-				<th>Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Active</th>
-            </tr>
-        </tfoot>
-    </table>
-    
+
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Delete Confirmation!</h4>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete?</p>
+				</div>
+				<div class="modal-footer">
+				  <form method="POST" action="/delete" th:action="@{/delete}">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Confirm</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				  </form>		
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
 </body>
 </html>

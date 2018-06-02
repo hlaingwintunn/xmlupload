@@ -13,6 +13,9 @@ public interface StudentService {
 
 	public List<Student> getAllStudent();
 
-	public List<Student> readFile(Optional<MultipartFile> multipartFileOpt);
+	public List<Student> readandSaveStudentInfo(Optional<MultipartFile> multipartFileOpt) throws StudentException;
+
+	public Boolean deleteStudentById(Long id);
+
 
 }

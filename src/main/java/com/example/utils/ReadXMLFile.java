@@ -19,6 +19,12 @@ import org.xml.sax.SAXException;
 
 import com.example.model.Student;
 
+/**
+ * 
+ * @author Hlaing Win Tun
+ *
+ */
+
 public class ReadXMLFile {
 	private static final Logger logger = LoggerFactory.getLogger(ReadXMLFile.class);
 	
@@ -51,7 +57,7 @@ public class ReadXMLFile {
 					Student student = new Student()
 							.setStudentName(elem.getElementsByTagName("studentName").item(0).getTextContent())
 							.setDob(elem.getElementsByTagName("dob").item(0).getTextContent())
-							.setTotalMarks(Float.parseFloat(elem.getElementsByTagName("totalMarks").item(0).getTextContent()));
+							.setTotalMarks(Integer.parseInt(elem.getElementsByTagName("totalMarks").item(0).getTextContent()));
 					
 					logger.debug("Parse sutdent data:", student);
 					
