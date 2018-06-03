@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,10 +66,10 @@ public class StudentController {
              boolean success = studentService.deleteStudentById(id);
              
              if(success) {
-            	 redirectAttributes.addFlashAttribute("message", "Student id = '"+ id +"' was removed from our database.");
+            	 redirectAttributes.addFlashAttribute("delmessage", "Student id = '"+ id +"' was removed from our database.");
             	 logger.info("Student id {} was removed from our database.", id);
              } else {
-            	 redirectAttributes.addFlashAttribute("message", "Student id = '"+ id +"' does not exist.");
+            	 redirectAttributes.addFlashAttribute("delmessage", "Student id = '"+ id +"' does not exist.");
             	 logger.info("Student id = {} does not exist", id);
              }  
             

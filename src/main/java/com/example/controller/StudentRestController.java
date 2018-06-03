@@ -26,7 +26,5 @@ public class StudentRestController {
 	public List<Student> getAllStudent() {
 		return studentService.getAllStudent();
 	}
-	
-
 
 }

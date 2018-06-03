@@ -37,7 +37,6 @@ import com.example.repository.StudentRepository;
 @Service("studentService")
 public class StudentServiceImpl implements StudentService {
 	private static final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
-	List<Student> results = new ArrayList<>();
 	
 	@Autowired
 	private StudentRepository studentRepository;
@@ -54,6 +53,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<Student> readandSaveStudentInfo(Optional<MultipartFile> multipartFileOpt) throws StudentException {
+		List<Student> results = new ArrayList<>();
 		
 		if(multipartFileOpt.isPresent()) {
 			

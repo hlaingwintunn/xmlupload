@@ -31,6 +31,17 @@ $(document).ready( function () {
 	 
 	 $('#confirmdelete').click(function() {
 		 row.remove();
+		 
+		 $.ajax({
+		     type: "POST",
+		     url: "delete",
+		     data: { id: delId }, // parameters
+		     success: function(response) {
+		    	 $('#delmessage').html("Student with id = "+ delId +" was removed from our database.");
+		     }
+		})
 	 })
+	 
+	 
 	
 });
